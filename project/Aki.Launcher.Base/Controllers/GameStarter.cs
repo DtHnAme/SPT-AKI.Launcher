@@ -57,21 +57,6 @@ namespace Aki.Launcher
 
         public async Task<GameStarterResult> LaunchGame(ServerInfo server, AccountInfo account, string gamePath)
         {
-            // setup directories
-            if (IsInstalledInLive())
-            {
-                LogManager.Instance.Warning("Failed installed in live check");
-                return GameStarterResult.FromError(-1);
-            }
-
-            SetupGameFiles(gamePath);
-
-            if (!ValidationUtil.Validate())
-            {
-                LogManager.Instance.Warning("Failed validation check");
-                return GameStarterResult.FromError(-2);
-            }
-
             if (account.wipe)
             {
                 RemoveRegistryKeys();
@@ -121,107 +106,6 @@ namespace Aki.Launcher
             }
 
             return GameStarterResult.FromSuccess();
-        }
-
-        bool IsInstalledInLive()
-        {
-            var isInstalledInLive = false;
-
-            try
-            {
-                var files = new FileInfo[]
-                {
-                    // aki files
-                    new FileInfo(Path.Combine(_originalGamePath, @"Aki.Launcher.exe")),
-                    new FileInfo(Path.Combine(_originalGamePath, @"Aki.Server.exe")),
-                    new FileInfo(Path.Combine(_originalGamePath, @"EscapeFromTarkov_Data\Managed\Aki.Build.dll")),
-                    new FileInfo(Path.Combine(_originalGamePath, @"EscapeFromTarkov_Data\Managed\Aki.Common.dll")),
-                    new FileInfo(Path.Combine(_originalGamePath, @"EscapeFromTarkov_Data\Managed\Aki.Reflection.dll")),
-
-                    // bepinex files
-                    new FileInfo(Path.Combine(_originalGamePath, @"doorstep_config.ini")),
-                    new FileInfo(Path.Combine(_originalGamePath, @"winhttp.dll")),
-
-                    // licenses
-                    new FileInfo(Path.Combine(_originalGamePath, @"LICENSE-BEPINEX.txt")),
-                    new FileInfo(Path.Combine(_originalGamePath, @"LICENSE-ConfigurationManager.txt")),                                    
-                    new FileInfo(Path.Combine(_originalGamePath, @"LICENSE-Launcher.txt")),
-                    new FileInfo(Path.Combine(_originalGamePath, @"LICENSE-Modules.txt")),
-                    new FileInfo(Path.Combine(_originalGamePath, @"LICENSE-Server.txt"))
-                };
-                var directories = new DirectoryInfo[]
-                {
-                    new DirectoryInfo(Path.Combine(_originalGamePath, @"Aki_Data")),
-                    new DirectoryInfo(Path.Combine(_originalGamePath, @"BepInEx"))
-                };
-
-                foreach (var file in files)
-                {
-                    if (File.Exists(file.FullName))
-                    {
-                        File.Delete(file.FullName);
-                        isInstalledInLive = true;
-                    }
-                }
-
-                foreach (var directory in directories)
-                {
-                    if (Directory.Exists(directory.FullName))
-                    {
-                        RemoveFilesRecurse(directory);
-                        isInstalledInLive = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogManager.Instance.Exception(ex);
-            }
-
-            return isInstalledInLive;
-        }
-
-        void SetupGameFiles(string gamePath)
-        {
-            var files = new []
-            {
-                GetFileForCleanup("BattlEye", gamePath),
-                GetFileForCleanup("Logs", gamePath),
-                GetFileForCleanup("ConsistencyInfo", gamePath),
-                GetFileForCleanup("EscapeFromTarkov_BE.exe", gamePath),
-                GetFileForCleanup("Uninstall.exe", gamePath),
-                GetFileForCleanup("UnityCrashHandler64.exe", gamePath),
-                GetFileForCleanup("WinPixEventRuntime.dll", gamePath)
-            };
-
-            foreach (var file in files)
-            {
-                if (file == null)
-                {
-                    continue;
-                }
-
-                if (Directory.Exists(file))
-                {
-                    RemoveFilesRecurse(new DirectoryInfo(file));
-                }
-
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
-        }
-
-        private string GetFileForCleanup(string fileName, string gamePath)
-        {
-            if (_excludeFromCleanup.Contains(fileName))
-            {
-                LogManager.Instance.Info($"Excluded {fileName} from file cleanup");
-                return null;
-            }
-            
-            return Path.Combine(gamePath, fileName);
         }
 
         /// <summary>
