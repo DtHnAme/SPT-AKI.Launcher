@@ -8,6 +8,7 @@
 
 using Aki.Launcher.MiniCommon;
 using Aki.Launcher.Models.Launcher;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Aki.ByteBanger;
@@ -64,7 +65,7 @@ namespace Aki.Launcher.Helpers
 
         private string[] GetCorePatches()
         {
-            return VFS.GetDirectories(VFS.Combine(GamePath, "Aki_Data/Launcher/Patches/"));
+            return VFS.GetDirectories(VFS.Combine(Environment.CurrentDirectory, "Aki_Data/Launcher/Patches/"));
         }
 
         public ProgressReportingPatchRunner(string GamePath, string[] Patches = null)
