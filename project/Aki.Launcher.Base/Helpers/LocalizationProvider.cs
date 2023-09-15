@@ -177,6 +177,7 @@ namespace Aki.Launcher.Helpers
             englishLocale.profile_mods = "Profile Mods";
             englishLocale.author = "Author";
             englishLocale.wipe_on_start = "Wipe profile on game start";
+            englishLocale.apply_patches = "Apply Aki-Core Patches";
             #endregion
 
             Directory.CreateDirectory(LocalizationProvider.DefaultLocaleFolderPath);
@@ -1617,6 +1618,22 @@ namespace Aki.Launcher.Helpers
                 {
                     _wipe_on_start = value;
                     RaisePropertyChanged(nameof(wipe_on_start));
+                }
+            }
+        }
+        #endregion
+
+        #region apply_patches
+        private string _apply_patches;
+        public string apply_patches
+        {
+            get => _apply_patches;
+            set
+            {
+                if (_apply_patches != value)
+                {
+                    _apply_patches = value;
+                    RaisePropertyChanged(nameof(apply_patches));
                 }
             }
         }

@@ -80,11 +80,12 @@
   "i_understand": "我了解",
   "game_version_mismatch_format_2": "SPT无法运行，这是由于SPT需要EFT版本 '{1}'，\n但现有版本是 '{0}'\n\n确保你已经按照你下载SPT的页面上的\n安装指导的描述降级你的EFT",
   "description": "描述",
-  "server_mods": "Server Mods",
-  "profile_mods": "Profile Mods",
-  "author": "Author",
-  "load_live_settings": "Load Live Settings",
-  "load_live_settings_succeeded": "Game settings copied from live",
-  "load_live_settings_failed": "Failed to copy live settings",
-  "wipe_on_start": "Wipe profile on game start"
+  "server_mods": "服务器模组",
+  "profile_mods": "存档模组",
+  "author": "作者",
+  "load_live_settings": "加载在线版设置",
+  "load_live_settings_succeeded": "加载在线版配置文件完成",
+  "load_live_settings_failed": "加载在线版配置文件失败",
+  "wipe_on_start": "当游戏启动时重置存档",
+  "apply_patches": "应用Aki核心补丁"
 }

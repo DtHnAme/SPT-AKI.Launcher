@@ -59,7 +59,14 @@
     <StackPanel Grid.Row="2" Grid.Column="2">
       <Label Content="{Binding Source={x:Static helpers:LocalizationProvider.Instance}, Path=on_game_start}"
              />
-      <cc:LocalizedLauncherActionSelector />
+      <WrapPanel Orientation="Horizontal">
+        <cc:LocalizedLauncherActionSelector />
+        <CheckBox IsChecked="{Binding Source={x:Static helpers:LauncherSettingsProvider.Instance}, Path=ApplyPatches}" Margin="20 0 0 0">
+            <TextBlock Text="{Binding Source={x:Static helpers:LocalizationProvider.Instance}, Path=apply_patches}"
+                       TextWrapping="Wrap" 
+                       />
+        </CheckBox>
+      </WrapPanel>
     </StackPanel>
 
     <!-- Game Path -->
@@ -99,6 +106,6 @@
                Text="{Binding Source={x:Static helpers:LauncherSettingsProvider.Instance}, Path=Server.Url}"
                />
     </StackPanel>
-    
+
   </Grid>
 </UserControl>

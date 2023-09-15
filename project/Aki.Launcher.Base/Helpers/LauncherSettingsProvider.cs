@@ -109,6 +109,20 @@ namespace Aki.Launcher.Helpers
             }
         }
 
+        private bool _ApplyPatches;
+        public bool ApplyPatches
+        {
+            get => _ApplyPatches;
+            set
+            {
+                if (_ApplyPatches != value)
+                {
+                    _ApplyPatches = value;
+                    RaisePropertyChanged(nameof(ApplyPatches));
+                }
+            }
+        }
+
         private string _GamePath;
         public string GamePath
         {
@@ -145,6 +159,7 @@ namespace Aki.Launcher.Helpers
             if (!File.Exists(LauncherSettingsProvider.DefaultSettingsFileLocation))
             {
                 LauncherStartGameAction = LauncherAction.MinimizeAction;
+                ApplyPatches = true;
                 UseAutoLogin = true;
                 GamePath = Environment.CurrentDirectory;
 

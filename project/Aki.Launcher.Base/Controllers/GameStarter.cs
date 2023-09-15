@@ -73,18 +73,21 @@ namespace Aki.Launcher
             }
 
             // apply patches
-            ProgressReportingPatchRunner patchRunner = new ProgressReportingPatchRunner(gamePath);
+            if (LauncherSettingsProvider.Instance.ApplyPatches) 
+            {
+                ProgressReportingPatchRunner patchRunner = new ProgressReportingPatchRunner(gamePath);
 
-            try
-            {
-                await _frontend.CompletePatchTask(patchRunner.PatchFiles());
+                try
+                {
+                    await _frontend.CompletePatchTask(patchRunner.PatchFiles());
+                }
+                catch (TaskCanceledException)
+                {
+                    LogManager.Instance.Warning("Failed to apply assembly patch");
+                    return GameStarterResult.FromError(-4);
+                }
             }
-            catch (TaskCanceledException)
-            {
-                LogManager.Instance.Warning("Failed to apply assembly patch");
-                return GameStarterResult.FromError(-4);
-            }
-            
+
             //start game
             var args =
                 $"-force-gfx-jobs native -token={account.id} -config={Json.Serialize(new ClientConfig(server.backendUrl))}";

@@ -86,5 +86,6 @@
   "load_live_settings": "Загрузить настройкий онлайн-версии",
   "load_live_settings_succeeded": "Настройки игры скопированы из онлайн-версии",
   "load_live_settings_failed": "Не удалось скопировать настройки онлайн-версии",
-  "wipe_on_start": "Wipe profile on game start"
+  "wipe_on_start": "Wipe profile on game start",
+  "apply_patches": "Apply Aki-Core Patches"
 }
